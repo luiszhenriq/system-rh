@@ -4,6 +4,7 @@ package br.com.luis.sistemarh.service;
 import br.com.luis.sistemarh.dto.candidate.CandidateRequestDTO;
 import br.com.luis.sistemarh.dto.candidate.CandidateResponseDTO;
 import br.com.luis.sistemarh.dto.candidate.CandidateUpdateDTO;
+import br.com.luis.sistemarh.exception.IdNotFoundException;
 import br.com.luis.sistemarh.models.Candidate;
 import br.com.luis.sistemarh.models.Job;
 import br.com.luis.sistemarh.repositories.CandidateRepository;
@@ -27,7 +28,7 @@ public class CandidateService {
 
     public CandidateResponseDTO addCandidate(CandidateRequestDTO candidate) {
         Job job = jobRepository.findById(candidate.jobId())
-                .orElseThrow(()-> new RuntimeException("Vaga não encontrada"));
+                .orElseThrow(()-> new IdNotFoundException("Vaga não encontrada"));
 
 
 
@@ -47,7 +48,7 @@ public class CandidateService {
         Optional<Candidate> candidate = repository.findById(id);
 
         if (candidate.isEmpty()) {
-            throw new RuntimeException("Não foi encontrado nenhum candidato");
+            throw new IdNotFoundException("Não foi encontrado nenhum candidato com esse ID: " + id);
         }
 
         return candidate.get();

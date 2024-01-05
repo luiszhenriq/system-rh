@@ -7,6 +7,7 @@ import br.com.luis.sistemarh.dto.job.JobUpdateDTO;
 import br.com.luis.sistemarh.models.Job;
 import br.com.luis.sistemarh.service.JobService;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class JobController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<JobResponseDTO> addJob(@RequestBody JobRequestDTO jobRequestDTO) {
+    public ResponseEntity<JobResponseDTO> addJob(@RequestBody @Valid JobRequestDTO jobRequestDTO) {
         return new ResponseEntity<>(service.addJob(jobRequestDTO), HttpStatus.CREATED);
     }
 
@@ -47,7 +48,7 @@ public class JobController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<JobResponseDTO> updateJob (@PathVariable("id") Long id, @RequestBody JobUpdateDTO jobUpdateDTO) {
+    public ResponseEntity<JobResponseDTO> updateJob (@PathVariable("id") Long id, @RequestBody @Valid JobUpdateDTO jobUpdateDTO) {
         return new ResponseEntity<>(service.updateJob(id, jobUpdateDTO), HttpStatus.OK);
     }
 }

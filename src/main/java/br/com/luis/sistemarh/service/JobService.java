@@ -3,6 +3,7 @@ package br.com.luis.sistemarh.service;
 import br.com.luis.sistemarh.dto.job.JobRequestDTO;
 import br.com.luis.sistemarh.dto.job.JobResponseDTO;
 import br.com.luis.sistemarh.dto.job.JobUpdateDTO;
+import br.com.luis.sistemarh.exception.IdNotFoundException;
 import br.com.luis.sistemarh.models.Job;
 import br.com.luis.sistemarh.repositories.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +39,12 @@ public class JobService {
         if (job.isPresent()) {
             return job.get();
         }
-        throw new RuntimeException("Não foi encontrado nenhuma Vaga");
+        throw new IdNotFoundException("Não foi encontrado nenhuma Vaga");
     }
 
     public JobResponseDTO updateJob (Long id, JobUpdateDTO jobUpdateDTO) {
-        Job job = repository.findById(id).get();
+        Job job = repository.findById(id).
+                orElseThrow(()-> new IdNotFoundException("Nenhuma vaga foi encontrada"));
 
 
         job.setDescription(jobUpdateDTO.description());

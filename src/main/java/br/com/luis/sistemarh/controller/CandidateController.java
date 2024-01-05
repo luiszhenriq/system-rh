@@ -7,6 +7,7 @@ import br.com.luis.sistemarh.dto.candidate.CandidateUpdateDTO;
 import br.com.luis.sistemarh.models.Candidate;
 import br.com.luis.sistemarh.service.CandidateService;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class CandidateController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<CandidateResponseDTO> addCandidate (@RequestBody CandidateRequestDTO candidateRequestDTO) {
+    public ResponseEntity<CandidateResponseDTO> addCandidate (@RequestBody @Valid CandidateRequestDTO candidateRequestDTO) {
         return  new ResponseEntity<>(service.addCandidate(candidateRequestDTO), HttpStatus.CREATED);
     }
 
@@ -40,7 +41,7 @@ public class CandidateController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<CandidateResponseDTO> updateCandidate (@PathVariable("id") Long id, @RequestBody CandidateUpdateDTO candidateUpdateDTO) {
+    public ResponseEntity<CandidateResponseDTO> updateCandidate (@PathVariable("id") Long id, @RequestBody @Valid CandidateUpdateDTO candidateUpdateDTO) {
         return new ResponseEntity<>(service.updateCandidate(id, candidateUpdateDTO), HttpStatus.OK);
     }
 
