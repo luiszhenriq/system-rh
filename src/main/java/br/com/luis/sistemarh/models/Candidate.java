@@ -1,6 +1,7 @@
 package br.com.luis.sistemarh.models;
 
 
+import br.com.luis.sistemarh.dto.candidate.CandidateRequestDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,9 +22,19 @@ public class Candidate {
 
     private String name;
 
+    @Column(unique = true)
     private String rg;
 
+    @Column(unique = true)
     private String email;
 
+    @Column(name = "number_phone")
     private Long numberPhone;
+
+    public Candidate(CandidateRequestDTO candidateRequestDTO) {
+        this.name = candidateRequestDTO.name();
+        this.rg = candidateRequestDTO.rg();
+        this.email = candidateRequestDTO.email();
+        this.numberPhone = candidateRequestDTO.numberPhone();
+    }
 }
