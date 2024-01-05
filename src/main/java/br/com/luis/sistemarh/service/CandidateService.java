@@ -46,17 +46,17 @@ public class CandidateService {
     }
 
     public CandidateResponseDTO updateCandidate (Long id, CandidateUpdateDTO candidateUpdateDTO) {
-        Optional<Candidate> candidate = repository.findById(id);
+        Candidate candidate = repository.findById(id).get();
 
-        if (candidate.isEmpty()) {
-            throw new RuntimeException("Não foi encontrado nenhum candidato");
+        if (candidateUpdateDTO.email() != null) {
+            candidate.setEmail(candidateUpdateDTO.email());
         }
 
-        Candidate findedCandidate = candidate.get();
-        findedCandidate.setEmail(candidateUpdateDTO.email());
-        findedCandidate.setNumberPhone(candidateUpdateDTO.numberPhone());
+        if (candidateUpdateDTO.numberPhone() != null) {
+            candidate.setNumberPhone(candidateUpdateDTO.numberPhone());
+        }
 
-        Candidate updatedCandidate = repository.save(findedCandidate);
+        Candidate updatedCandidate = repository.save(candidate);
 
         return new CandidateResponseDTO(updatedCandidate.getId(), updatedCandidate.getName(), updatedCandidate.getRg(), updatedCandidate.getEmail(),
                 updatedCandidate.getNumberPhone());

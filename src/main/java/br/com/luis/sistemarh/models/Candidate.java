@@ -29,7 +29,7 @@ public class Candidate {
     private String email;
 
     @Column(name = "number_phone")
-    private Long numberPhone;
+    private String numberPhone;
 
     public Candidate(CandidateRequestDTO candidateRequestDTO) {
         this.name = candidateRequestDTO.name();

@@ -42,17 +42,17 @@ public class JobService {
     }
 
     public JobResponseDTO updateJob (Long id, JobUpdateDTO jobUpdateDTO) {
-        Optional<Job> job = repository.findById(id);
+        Job job = repository.findById(id).get();
 
-        if (job.isEmpty()) {
-            throw new RuntimeException("Não foi encontrado nenhuma Vaga");
+        if (jobUpdateDTO.description() != null) {
+            job.setDescription(jobUpdateDTO.description());
         }
 
-        Job findedJob = job.get();
-        findedJob.setDescription(jobUpdateDTO.description());
-        findedJob.setSalary(jobUpdateDTO.salary());
+        if (jobUpdateDTO.salary() != null) {
+            job.setSalary(jobUpdateDTO.salary());
+        }
 
-        Job updatedJob = repository.save(findedJob);
+        Job updatedJob = repository.save(job);
 
         return new JobResponseDTO(updatedJob.getId(), updatedJob.getCompany(), updatedJob.getDescription(), updatedJob.getRequirement(),
                 updatedJob.getSalary());
