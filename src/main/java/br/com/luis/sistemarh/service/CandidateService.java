@@ -5,7 +5,9 @@ import br.com.luis.sistemarh.dto.candidate.CandidateRequestDTO;
 import br.com.luis.sistemarh.dto.candidate.CandidateResponseDTO;
 import br.com.luis.sistemarh.dto.candidate.CandidateUpdateDTO;
 import br.com.luis.sistemarh.models.Candidate;
+import br.com.luis.sistemarh.models.Job;
 import br.com.luis.sistemarh.repositories.CandidateRepository;
+import br.com.luis.sistemarh.repositories.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,15 +21,22 @@ public class CandidateService {
     @Autowired
     private CandidateRepository repository;
 
+    @Autowired
+    private JobRepository jobRepository;
+
 
     public CandidateResponseDTO addCandidate(CandidateRequestDTO candidate) {
+        Job job = jobRepository.findById(candidate.jobId())
+                .orElseThrow(()-> new RuntimeException("Vaga não encontrada"));
+
+
 
         Candidate newCandidate = new Candidate(candidate);
-
+        newCandidate.setJob(job);
         Candidate saveCandidate = repository.save(newCandidate);
 
         return new CandidateResponseDTO(saveCandidate.getId(), saveCandidate.getName(), saveCandidate.getRg(), saveCandidate.getEmail(),
-                saveCandidate.getNumberPhone());
+                saveCandidate.getNumberPhone(),saveCandidate.getJob());
     }
 
     public List<Candidate> getAllCandidates() {
@@ -59,7 +68,7 @@ public class CandidateService {
         Candidate updatedCandidate = repository.save(candidate);
 
         return new CandidateResponseDTO(updatedCandidate.getId(), updatedCandidate.getName(), updatedCandidate.getRg(), updatedCandidate.getEmail(),
-                updatedCandidate.getNumberPhone());
+                updatedCandidate.getNumberPhone(), updatedCandidate.getJob());
     }
 
     public void deleteById (Long id) {

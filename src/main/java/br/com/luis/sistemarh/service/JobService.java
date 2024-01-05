@@ -44,14 +44,9 @@ public class JobService {
     public JobResponseDTO updateJob (Long id, JobUpdateDTO jobUpdateDTO) {
         Job job = repository.findById(id).get();
 
-        if (jobUpdateDTO.description() != null) {
-            job.setDescription(jobUpdateDTO.description());
-        }
 
-        if (jobUpdateDTO.salary() != null) {
-            job.setSalary(jobUpdateDTO.salary());
-        }
-
+        job.setDescription(jobUpdateDTO.description());
+        job.setSalary(jobUpdateDTO.salary());
         Job updatedJob = repository.save(job);
 
         return new JobResponseDTO(updatedJob.getId(), updatedJob.getCompany(), updatedJob.getDescription(), updatedJob.getRequirement(),

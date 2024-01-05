@@ -2,6 +2,7 @@ package br.com.luis.sistemarh.models;
 
 
 import br.com.luis.sistemarh.dto.candidate.CandidateRequestDTO;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,6 +31,11 @@ public class Candidate {
 
     @Column(name = "number_phone")
     private String numberPhone;
+
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_job")
+    private Job job;
 
     public Candidate(CandidateRequestDTO candidateRequestDTO) {
         this.name = candidateRequestDTO.name();
