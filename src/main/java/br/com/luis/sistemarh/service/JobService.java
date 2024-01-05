@@ -25,7 +25,7 @@ public class JobService {
 
         Job saveJob = repository.save(newJob);
 
-        return new JobResponseDTO(saveJob.getId(), saveJob.getCompany(), saveJob.getDescription(), saveJob.getBenefit(), saveJob.getRequirement(),
+        return new JobResponseDTO(saveJob.getId(), saveJob.getCompany(), saveJob.getDescription(), saveJob.getRequirement(),
                 saveJob.getSalary());
     }
 
@@ -33,7 +33,7 @@ public class JobService {
         return repository.findAll();
     }
 
-    public Job findJobById(Long id) {
+    public Job getJobById(Long id) {
         Optional<Job> job = repository.findById(id);
         if (job.isPresent()) {
             return job.get();
@@ -49,13 +49,12 @@ public class JobService {
         }
 
         Job findedJob = job.get();
-        findedJob.setBenefit(jobUpdateDTO.benefit());
         findedJob.setDescription(jobUpdateDTO.description());
         findedJob.setSalary(jobUpdateDTO.salary());
 
         Job updatedJob = repository.save(findedJob);
 
-        return new JobResponseDTO(updatedJob.getId(), updatedJob.getCompany(), updatedJob.getDescription(), updatedJob.getBenefit(), updatedJob.getRequirement(),
+        return new JobResponseDTO(updatedJob.getId(), updatedJob.getCompany(), updatedJob.getDescription(), updatedJob.getRequirement(),
                 updatedJob.getSalary());
     }
 

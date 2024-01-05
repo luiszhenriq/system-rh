@@ -1,4 +1,6 @@
 package br.com.luis.sistemarh.dto.job;
 
-public record JobUpdateDTO(String description, String benefit, Double salary) {
+import java.util.List;
+
+public record JobUpdateDTO(String description, Double salary) {
 }

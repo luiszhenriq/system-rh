@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity(name = "jobs")
 @Table(name = "jobs")
 @Getter
@@ -23,8 +25,6 @@ public class Job {
 
     private String description;
 
-    private String benefit;
-
     private String requirement;
 
     private Double salary;
@@ -32,7 +32,6 @@ public class Job {
     public Job(JobRequestDTO jobRequestDTO) {
         this.company = jobRequestDTO.company();
         this.description = jobRequestDTO.description();
-        this.benefit = jobRequestDTO.benefit();
         this.requirement = jobRequestDTO.requirement();
         this.salary = jobRequestDTO.salary();
     }
